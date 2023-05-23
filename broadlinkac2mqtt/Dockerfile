@@ -12,7 +12,7 @@ ENV ADD_ON_VERSION 1.1.0
 # Install git for go get command and get the repo
 RUN \
     apk add --no-cache git\
-    && go get github.com/ArtemVladimirov/broadlinkac2mqtt
+    && go install github.com/ArtemVladimirov/broadlinkac2mqtt@latest
 
 WORKDIR /go/src/github.com/ArtemVladimirov/broadlinkac2mqtt
 

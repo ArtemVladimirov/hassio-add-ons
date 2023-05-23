@@ -1,5 +1,5 @@
 name: BroadlinkAC2MQTT
-version: 1.1.0
+version: 1.1.1
 slug: broadlinkac2mqtt
 description: Control your broadlink-based air conditioner using Home Assistant
 url: https://github.com/ArtemVladimirov/hassio-add-ons/tree/master

@@ -7,12 +7,12 @@ FROM golang:1.19.9-alpine3.18 as build
 ARG BUILD_ARCH
 
 # Add-on version
-ENV ADD_ON_VERSION 1.1.0
+ENV ADD_ON_VERSION 1.1.1
 
 # Install git for go get command and get the repo
 RUN \
     apk add --no-cache git curl \
-    && go install github.com/ArtemVladimirov/broadlinkac2mqtt@latest
+    && RUN git clone git@github.com:ArtemVladimirov/broadlinkac2mqtt.git /go/src/github.com/ArtemVladimirov/broadlinkac2mqtt
 
 WORKDIR /go/src/github.com/ArtemVladimirov/broadlinkac2mqtt
 

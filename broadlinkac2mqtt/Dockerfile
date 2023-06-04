@@ -10,9 +10,9 @@ ARG BUILD_ARCH
 ENV ADD_ON_VERSION 1.1.1
 
 # Install git for go get command and get the repo
-RUN apk add --no-cache git
 
-RUN git clone git@github.com:ArtemVladimirov/broadlinkac2mqtt.git /go/src/github.com/ArtemVladimirov/broadlinkac2mqtt
+RUN apk add git gcc musl-dev libffi-dev openssl-dev
+RUN git clone git@github.com:ArtemVladimirov/broadlinkac2mqtt.git -n /go/src/github.com/ArtemVladimirov/broadlinkac2mqtt
 
 WORKDIR /go/src/github.com/ArtemVladimirov/broadlinkac2mqtt
 

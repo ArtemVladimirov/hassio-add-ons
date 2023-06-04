@@ -1,4 +1,4 @@
-name: BroadlinkAC2MQTT
+name: broadlinkac2mqtt
 version: 1.1.1
 slug: broadlinkac2mqtt
 description: Control your broadlink-based air conditioner using Home Assistant
@@ -53,6 +53,6 @@ schema:
     key-client: "str?"
   devices:
     - ip: str
-      mac:  str
+      mac: str
       name: str
       port: port

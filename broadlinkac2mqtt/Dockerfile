@@ -15,17 +15,18 @@ RUN apt-get update && apt-get install -y unzip
 
 # Загружаем архив и распаковываем его
 RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.1.1.zip && \
-    unzip v1.1.1.zip -d /app/broadlinkac2mqtt && \
+    unzip v1.1.1.zip && \
+    mv /app/broadlinkac2mqtt-1.1.1 /app/broadlinkac2mqtt && \
     rm v1.1.1.zip
 
 # Переходим в распакованную директорию
-WORKDIR /app/broadlinkac2mqtt/broadlinkac2mqtt-1.1.1
+WORKDIR /app/broadlinkac2mqtt
 
 # Install dependencies and build the binary to target platform
 RUN \
     go get -d -v ./... \
     && go install -v ./... \
-    && cd /app/broadlinkac2mqtt/broadlinkac2mqtt-1.1.1 \
+    && cd /app/broadlinkac2mqtt \
     && \
     if [ "${BUILD_ARCH}" = "armhf" ]; then \
     GOOS=linux GOARCH=arm go build; \
@@ -50,7 +51,7 @@ RUN \
     mkdir /broadlinkac2mqtt/config
 
 # Copy binary from build container
-COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt-1.1.1/broadlinkac2mqtt /broadlinkac2mqtt
+COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt /broadlinkac2mqtt
 RUN chmod a+x /broadlinkac2mqtt/broadlinkac2mqtt
 
 WORKDIR /data

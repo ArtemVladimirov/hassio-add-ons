@@ -6,6 +6,6 @@ ls
 cd /broadlinkac2mqtt
 pwd
 ls
-
+chmod +x broadlinkac2mqtt
 ## Run your program
 ./broadlinkac2mqtt

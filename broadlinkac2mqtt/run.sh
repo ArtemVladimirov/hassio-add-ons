@@ -8,4 +8,4 @@ pwd
 ls
 chmod +x broadlinkac2mqtt
 ## Run your program
-./broadlinkac2mqtt
+/broadlinkac2mqtt/broadlinkac2mqtt

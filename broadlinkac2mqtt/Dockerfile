@@ -58,6 +58,10 @@ WORKDIR /data
 COPY run.sh /
 RUN chmod a+x /run.sh
 
+RUN apk add --no-cache gcc g++ make \
+    && pip3 install --no-cache-dir -U \
+    pyyaml
+
 CMD [ "/run.sh" ]
 
 #

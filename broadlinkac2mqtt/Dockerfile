@@ -45,16 +45,12 @@ RUN \
 # STAGE 2: Include binary in target add-on container
 FROM ${BUILD_FROM} AS runtime
 
-# Prepare target folders
-RUN \
-    mkdir /broadlinkac2mqtt \
-    mkdir /broadlinkac2mqtt/config
-
-# Copy binary from build container
-COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt /broadlinkac2mqtt
-RUN chmod +x /broadlinkac2mqtt/broadlinkac2mqtt
-
 WORKDIR /data
+COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt  /
+RUN chmod a+x /broadlinkac2mqtt
+
+RUN mkdir /data/config
+
 COPY run.sh /
 RUN chmod a+x /run.sh
 

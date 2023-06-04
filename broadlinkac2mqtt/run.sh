@@ -2,5 +2,7 @@
 
 python3 -c 'import sys, yaml, json; print(yaml.dump(json.loads(open("/data/options.json").read())))' > /broadlinkac2mqtt/config/config.yaml
 
+cd /broadlinkac2mqtt
+
 ## Run your program
-./broadlinkac2mqtt/broadlinkac2mqtt
+./broadlinkac2mqtt

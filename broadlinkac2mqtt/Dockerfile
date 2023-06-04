@@ -1,7 +1,6 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/base:14.0.0
 
-# STAGE 1: Build the binary
-FROM golang:1.19.9-alpine3.18 as build
+FROM golang:latest as build
 
 # Build arguments
 ARG BUILD_ARCH
@@ -9,18 +8,24 @@ ARG BUILD_ARCH
 # Add-on version
 ENV ADD_ON_VERSION 1.1.1
 
-# Install git for go get command and get the repo
+WORKDIR /app
 
-RUN apk add git gcc musl-dev libffi-dev openssl-dev
-RUN git clone git@github.com:ArtemVladimirov/broadlinkac2mqtt.git -n /go/src/github.com/ArtemVladimirov/broadlinkac2mqtt
+# Скачиваем и устанавливаем утилиту unzip
+RUN apt-get update && apt-get install -y unzip
 
-WORKDIR /go/src/github.com/ArtemVladimirov/broadlinkac2mqtt
+# Загружаем архив и распаковываем его
+RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.1.1.zip && \
+    unzip v1.1.1.zip -d /app/broadlinkac2mqtt && \
+    rm v1.1.1.zip
+
+# Переходим в распакованную директорию
+WORKDIR /app/broadlinkac2mqtt/broadlinkac2mqtt-1.1.1
 
 # Install dependencies and build the binary to target platform
 RUN \
     go get -d -v ./... \
     && go install -v ./... \
-    && cd /go/src/github.com/ArtemVladimirov/broadlinkac2mqtt \
+    && cd /app/broadlinkac2mqtt/broadlinkac2mqtt-1.1.1 \
     && \
     if [ "${BUILD_ARCH}" = "armhf" ]; then \
     GOOS=linux GOARCH=arm go build; \
@@ -45,7 +50,8 @@ RUN \
     mkdir /broadlinkac2mqtt/config
 
 # Copy binary from build container
-COPY --from=build /go/src/github.com/ArtemVladimirov/broadlinkac2mqtt/BroadlinkAC2Mqtt /broadlinkac2mqtt
+COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt-1.1.1/broadlinkac2mqtt /broadlinkac2mqtt
+RUN chmod a+x /broadlinkac2mqtt/broadlinkac2mqtt
 
 WORKDIR /data
 COPY run.sh /

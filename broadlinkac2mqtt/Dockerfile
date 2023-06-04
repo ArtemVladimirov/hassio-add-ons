@@ -52,7 +52,7 @@ RUN \
 
 # Copy binary from build container
 COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt /broadlinkac2mqtt
-RUN chmod a+x /broadlinkac2mqtt/broadlinkac2mqtt
+RUN chmod +x /broadlinkac2mqtt/broadlinkac2mqtt
 
 WORKDIR /data
 COPY run.sh /

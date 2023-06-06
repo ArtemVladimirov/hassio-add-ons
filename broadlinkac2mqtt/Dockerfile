@@ -48,11 +48,11 @@ FROM ${BUILD_FROM} AS runtime
 WORKDIR /data
 
 RUN \
-    mkdir /data/broadlinkac2mqtt \
-    mkdir /data/broadlinkac2mqtt/config
+    mkdir /broadlinkac2mqtt \
+    mkdir /broadlinkac2mqtt/config
 
 # Copy binary from build container
-COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt /data/broadlinkac2mqtt
+COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt /broadlinkac2mqtt
 
 COPY run.sh /
 RUN chmod a+x /run.sh

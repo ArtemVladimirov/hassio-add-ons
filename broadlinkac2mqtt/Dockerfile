@@ -47,11 +47,15 @@ WORKDIR /broadlinkac2mqtt
 
 # Copy binary from build container
 COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt .
-COPY run.sh .
 
+COPY run.sh .
 RUN chmod a+x ./run.sh
-RUN mkdir config
-RUN pip3 install --no-cache-dir -U pyyaml
+
+RUN mkdir configs
+
+RUN apk add --no-cache \
+    && pip3 install --no-cache-dir -U \
+    pyyaml
 
 CMD "/broadlinkac2mqtt/run.sh"
 

@@ -53,7 +53,7 @@ RUN chmod a+x ./run.sh
 
 RUN mkdir config
 
-RUN apk add --no-cache \
+RUN apk add --no-cache gcc g++ make \
     && pip3 install --no-cache-dir -U \
     pyyaml
 

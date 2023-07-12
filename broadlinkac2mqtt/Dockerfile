@@ -52,7 +52,8 @@ RUN mkdir ./config
 # Copy binary from build container
 COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt ./broadlinkac2mqtt
 
-COPY run.sh /
+COPY run.sh .
+
 RUN chmod a+x ./run.sh
 
 RUN apk add --no-cache gcc g++ make \

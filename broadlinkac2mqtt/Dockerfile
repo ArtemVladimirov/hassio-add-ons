@@ -51,7 +51,7 @@ COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt .
 COPY run.sh .
 RUN chmod a+x ./run.sh
 
-RUN mkdir configs
+RUN mkdir config
 
 RUN apk add --no-cache \
     && pip3 install --no-cache-dir -U \

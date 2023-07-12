@@ -45,23 +45,21 @@ RUN \
 # STAGE 2: Include binary in target add-on container
 FROM ${BUILD_FROM} AS runtime
 
-WORKDIR /data
+WORKDIR /broadlinkac2mqtt
 
-RUN \
-    mkdir ./broadlinkac2mqtt \
-    mkdir ./broadlinkac2mqtt/config
+RUN mkdir ./config
 
 # Copy binary from build container
-COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt ./broadlinkac2mqtt/broadlinkac2mqtt
+COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt ./broadlinkac2mqtt
 
 COPY run.sh /
-RUN chmod a+x /run.sh
+RUN chmod a+x run.sh
 
 RUN apk add --no-cache gcc g++ make \
     && pip3 install --no-cache-dir -U \
     pyyaml
 
-CMD "/run.sh" && "./broadlinkac2mqtt/broadlinkac2mqtt"
+CMD "run.sh" && "broadlinkac2mqtt"
 
 #
 # LABEL target docker image

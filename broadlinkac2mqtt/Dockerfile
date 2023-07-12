@@ -48,8 +48,8 @@ FROM ${BUILD_FROM} AS runtime
 WORKDIR /data
 
 RUN \
-    mkdir /broadlinkac2mqtt \
-    mkdir /broadlinkac2mqtt/config
+    mkdir ./broadlinkac2mqtt \
+    mkdir ./broadlinkac2mqtt/config
 
 # Copy binary from build container
 COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt ./broadlinkac2mqtt/broadlinkac2mqtt

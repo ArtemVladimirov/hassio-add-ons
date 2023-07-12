@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/base:14.0.2
+ARG BUILD_FROM=homeassistant/base-amd64:5.0.3
 
 FROM golang:latest as build
 
@@ -6,7 +6,7 @@ FROM golang:latest as build
 ARG BUILD_ARCH
 
 # Add-on version
-ENV ADD_ON_VERSION 1.3.0
+ENV ADD_ON_VERSION 1.3.1
 
 WORKDIR /app
 
@@ -50,8 +50,8 @@ WORKDIR /broadlinkac2mqtt
 # Copy binary from build container
 COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt .
 
-COPY run.sh .
-RUN chmod a+x ./run.sh
+#COPY run.sh .
+#RUN chmod a+x ./run.sh
 
 RUN mkdir config
 

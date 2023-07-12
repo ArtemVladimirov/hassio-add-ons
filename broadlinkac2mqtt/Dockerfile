@@ -1,5 +1,3 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/base:14.0.2
-
 FROM golang:latest as build
 
 # Build arguments
@@ -43,22 +41,17 @@ RUN \
     fi
 
 # STAGE 2: Include binary in target add-on container
-FROM ${BUILD_FROM} AS runtime
+FROM ghcr.io/hassio-addons/base:14.0.2 AS runtime
 
 WORKDIR /broadlinkac2mqtt
 
 # Copy binary from build container
 COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt .
-RUN chmod +x ./broadlinkac2mqtt
-
 COPY run.sh .
+
 RUN chmod a+x ./run.sh
-
 RUN mkdir config
-
-RUN apk add --no-cache gcc g++ make \
-    && pip3 install --no-cache-dir -U \
-    pyyaml
+RUN pip3 install --no-cache-dir -U pyyaml
 
 CMD "/broadlinkac2mqtt/run.sh"
 

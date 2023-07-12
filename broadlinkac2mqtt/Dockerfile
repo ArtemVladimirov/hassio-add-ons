@@ -1,4 +1,4 @@
-ARG BUILD_FROM=homeassistant/base-amd64:5.0.3
+ARG BUILD_FROM=ghcr.io/hassio-addons/base:14.0.2
 
 FROM golang:latest as build
 
@@ -49,13 +49,18 @@ WORKDIR /broadlinkac2mqtt
 
 # Copy binary from build container
 COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt .
+RUN chmod +x ./broadlinkac2mqtt
 
-#COPY run.sh .
-#RUN chmod a+x ./run.sh
+COPY run.sh .
+RUN chmod a+x ./run.sh
 
 RUN mkdir config
 
-CMD "/broadlinkac2mqtt/broadlinkac2mqtt"
+RUN apk add --no-cache gcc g++ make \
+    && pip3 install --no-cache-dir -U \
+    pyyaml
+
+CMD "/broadlinkac2mqtt/run.sh"
 
 #
 # LABEL target docker image

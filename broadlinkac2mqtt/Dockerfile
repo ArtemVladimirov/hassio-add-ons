@@ -6,7 +6,7 @@ FROM golang:latest as build
 ARG BUILD_ARCH
 
 # Add-on version
-ENV ADD_ON_VERSION 1.1.1
+ENV ADD_ON_VERSION 1.3.0
 
 WORKDIR /app
 
@@ -14,10 +14,10 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y unzip
 
 # Загружаем архив и распаковываем его
-RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.1.1.zip && \
-    unzip v1.1.1.zip && \
-    mv /app/broadlinkac2mqtt-1.1.1 /app/broadlinkac2mqtt && \
-    rm v1.1.1.zip
+RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.3.0.zip && \
+    unzip v1.3.0.zip && \
+    mv /app/broadlinkac2mqtt-1.3.0 /app/broadlinkac2mqtt && \
+    rm v1.3.0.zip
 
 # Переходим в распакованную директорию
 WORKDIR /app/broadlinkac2mqtt
@@ -45,14 +45,14 @@ RUN \
 # STAGE 2: Include binary in target add-on container
 FROM ${BUILD_FROM} AS runtime
 
+WORKDIR /data
+
 RUN \
     mkdir /broadlinkac2mqtt \
     mkdir /broadlinkac2mqtt/config
 
 # Copy binary from build container
-COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt /broadlinkac2mqtt
-
-WORKDIR /data
+COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt ./broadlinkac2mqtt/broadlinkac2mqtt
 
 COPY run.sh /
 RUN chmod a+x /run.sh
@@ -61,7 +61,7 @@ RUN apk add --no-cache gcc g++ make \
     && pip3 install --no-cache-dir -U \
     pyyaml
 
-CMD "/run.sh" && "/broadlinkac2mqtt/broadlinkac2mqtt"
+CMD "/run.sh" && "./broadlinkac2mqtt/broadlinkac2mqtt"
 
 #
 # LABEL target docker image

@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv bashio
+#!/bin/sh
 
 pwd
 ls -l

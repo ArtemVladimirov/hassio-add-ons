@@ -59,7 +59,7 @@ RUN apk add --no-cache gcc g++ make \
     && pip3 install --no-cache-dir -U \
     pyyaml
 
-CMD "/broadlinkac2mqtt/run.sh"
+CMD "/broadlinkac2mqtt/broadlinkac2mqtt"
 
 #
 # LABEL target docker image

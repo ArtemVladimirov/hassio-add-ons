@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/base:14.0.0
+ARG BUILD_FROM=ghcr.io/hassio-addons/base:14.0.2
 
 FROM golang:latest as build
 
@@ -45,21 +45,19 @@ RUN \
 # STAGE 2: Include binary in target add-on container
 FROM ${BUILD_FROM} AS runtime
 
-RUN \
-    mkdir /broadlinkac2mqtt \
-    mkdir /broadlinkac2mqtt/config
+WORKDIR /broadlinkac2mqtt
 
 # Copy binary from build container
-COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt /broadlinkac2mqtt
-
-WORKDIR /broadlinkac2mqtt
+COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt .
 
 COPY run.sh .
 RUN chmod a+x ./run.sh
 
+RUN mkdir config
+
 RUN apk add --no-cache gcc g++ make \
     && pip3 install --no-cache-dir -U \
-    pyyaml
+    pyyaml \
 
 CMD "/broadlinkac2mqtt/run.sh"
 
@@ -75,7 +73,7 @@ ARG BUILD_VERSION
 
 # Labels
 LABEL \
-    io.hass.name="BroadlinkAC2MQTT" \
+    io.hass.name="broadlinkac2mqtt" \
     io.hass.description="Control your broadlink-based air conditioner using Home Assistant" \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
@@ -83,7 +81,7 @@ LABEL \
     maintainer="Artem Vladimirov <artyom-vladimirov@yandex.ru>" \
     org.label-schema.description="Control your broadlink-based air conditioner using Home Assistant" \
     org.label-schema.build-date=${BUILD_DATE} \
-    org.label-schema.name="BroadlinkAC2MQTT" \
+    org.label-schema.name="broadlinkac2mqtt" \
     org.label-schema.schema-version="1.0" \
     org.label-schema.url="https://addons.community" \
     org.label-schema.usage="https://github.com/hassio-addons/addon-example/tree/master/README.md" \

@@ -1,3 +1,5 @@
+ARG BUILD_FROM=ghcr.io/hassio-addons/base:14.0.2
+
 FROM golang:latest as build
 
 # Build arguments
@@ -41,7 +43,7 @@ RUN \
     fi
 
 # STAGE 2: Include binary in target add-on container
-FROM ghcr.io/hassio-addons/base:14.0.2 AS runtime
+FROM ${BUILD_FROM} AS runtime
 
 WORKDIR /broadlinkac2mqtt
 

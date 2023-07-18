@@ -1,6 +1,6 @@
 ARG BUILD_FROM
 
-FROM golang:latest as build
+FROM golang:1.20.6-alpine3.18 as build
 
 # Build arguments
 ARG BUILD_ARCH

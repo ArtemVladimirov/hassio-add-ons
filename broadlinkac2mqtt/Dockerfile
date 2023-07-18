@@ -11,7 +11,7 @@ ENV ADD_ON_VERSION 1.3.1
 WORKDIR /app
 
 # Скачиваем и устанавливаем утилиту unzip
-RUN apt-get update && apt-get install -y unzip
+RUN apk --update add openssl wget unzip
 
 # Загружаем архив и распаковываем его
 RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.3.1.zip && \

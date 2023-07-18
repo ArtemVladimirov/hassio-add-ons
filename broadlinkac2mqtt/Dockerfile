@@ -5,13 +5,7 @@ FROM golang:1.20.6-alpine3.18 as build
 # Build arguments
 ARG BUILD_ARCH
 
-# Add-on version
-ENV ADD_ON_VERSION 1.3.1
-
 WORKDIR /app
-
-# Скачиваем и устанавливаем утилиту unzip
-RUN apk --update add openssl wget unzip
 
 # Загружаем архив и распаковываем его
 RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.3.1.zip && \
@@ -49,7 +43,6 @@ WORKDIR /broadlinkac2mqtt
 
 # Copy binary from build container
 COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt .
-RUN chmod +x ./broadlinkac2mqtt
 
 COPY run.sh .
 RUN chmod a+x ./run.sh
@@ -60,7 +53,7 @@ RUN apk add --no-cache gcc g++ make \
     && pip3 install --no-cache-dir -U \
     pyyaml
 
-CMD "/broadlinkac2mqtt/run.sh"
+CMD "/broadlinkac2mqtt/run.sh" && "/broadlinkac2mqtt/broadlinkac2mqtt"
 
 #
 # LABEL target docker image

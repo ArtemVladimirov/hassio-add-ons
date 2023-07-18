@@ -13,7 +13,6 @@ startup: application
 boot: auto
 init: false
 panel_icon: mdi:air-conditioner
-#image: "ghcr.io/ArtemVladimirov/{arch}-addon-broadlinkac2mqtt"
 options:
   service:
     update_interval: 10

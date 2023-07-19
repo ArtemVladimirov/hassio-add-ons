@@ -1,0 +1,57 @@
+name: broadlinkac2mqtt
+version: 1.3.1
+slug: broadlinkac2mqtt
+description: Control your broadlink-based air conditioner using Home Assistant
+url: https://github.com/ArtemVladimirov/hassio-add-ons/tree/master
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: application
+boot: auto
+init: false
+panel_icon: mdi:air-conditioner
+options:
+  service:
+    update_interval: 10
+    log_level: error
+  mqtt:
+    broker: "mqtt://192.168.1.10:1883"
+    user: admin
+    password: password
+    client_id: aircon
+    topic_prefix: aircon
+    auto_discovery_topic: homeassistant
+    auto_discovery_topic_retain: false
+    certificate_authority: "ca.crt"
+    skip_cert_cn_check: true
+    certificate_client: "client.crt"
+    key-client: "client.key"
+  devices:
+    - ip: 127.0.0.1
+      mac: aabbccddeeff00
+      name: MH Childroom AC
+      port: 80
+schema:
+  service:
+    update_interval: "int?"
+    log_level: "match(^(error|debug|fatal|disabled|info)$)?"
+  mqtt:
+    broker: str
+    client_id: "str?"
+    user: "str?"
+    password: "str?"
+    topic_prefix: "str?"
+    auto_discovery_topic: "str?"
+    auto_discovery_topic_retain: "bool?"
+    certificate_authority: "str?"
+    skip_cert_cn_check: "bool?"
+    certificate_client: "str?"
+    key-client: "str?"
+  devices:
+    - ip: str
+      mac: str
+      name: str
+      port: port

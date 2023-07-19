@@ -22,7 +22,7 @@ RUN \
     else \
     echo 'NOT VALID BUILD'; exit 1; \
     fi \
-    && unzip broadlinkac2mqtt.tar.gz \
+    && tar -xzf broadlinkac2mqtt.tar.gz \
     && rm broadlinkac2mqtt.tar.gz
 
 COPY run.sh .

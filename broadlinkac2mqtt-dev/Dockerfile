@@ -25,14 +25,14 @@ RUN \
     && tar -xzf broadlinkac2mqtt.tar.gz \
     && rm broadlinkac2mqtt.tar.gz
 
-COPY run.sh .
-RUN chmod a+x ./run.sh \
-    && mkdir config \
+RUN mkdir config \
     && apk add --no-cache gcc g++ make \
     && pip3 install --no-cache-dir -U \
     pyyaml
 
-CMD "/broadlinkac2mqtt/run.sh" && "/broadlinkac2mqtt/broadlinkac2mqtt"
+CMD \
+    "python3 -c 'import sys, yaml, json; print(yaml.dump(json.loads(open('/data/options.json').read())))' > /broadlinkac2mqtt/config/config.yml" \
+    && "/broadlinkac2mqtt/broadlinkac2mqtt"
 
 # Build arguments
 ARG BUILD_DATE

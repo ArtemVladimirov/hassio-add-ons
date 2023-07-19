@@ -10,15 +10,15 @@ WORKDIR /broadlinkac2mqtt
 # Install dependencies and build the binary to target platform
 RUN \
     if [ "${BUILD_ARCH}" = "armhf" ]; then \
-    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/v1.3.2-beta/broadlinkac2mqtt-v1.3.2-beta-linux-arm.tar.gz; \
+    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-arm.tar.gz; \
     elif [ "${BUILD_ARCH}" = "armv7" ]; then \
-    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/v1.3.2-beta/broadlinkac2mqtt-v1.3.2-beta-linux-arm7.tar.gz; \
+    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-arm7.tar.gz; \
     elif [ "${BUILD_ARCH}" = "aarch64" ]; then \
-    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/v1.3.2-beta/broadlinkac2mqtt-v1.3.2-beta-linux-arm64.tar.gz; \
+    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-arm64.tar.gz; \
     elif [ "${BUILD_ARCH}" = "i386" ]; then \
-    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/v1.3.2-beta/broadlinkac2mqtt-v1.3.2-beta-linux-386.tar.gz; \
+    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-386.tar.gz; \
     elif [ "${BUILD_ARCH}" = "amd64" ]; then \
-    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/v1.3.2-beta/broadlinkac2mqtt-v1.3.2-beta-linux-amd64.tar.gz; \
+    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-amd64.tar.gz; \
     else \
     echo 'NOT VALID BUILD'; exit 1; \
     fi \

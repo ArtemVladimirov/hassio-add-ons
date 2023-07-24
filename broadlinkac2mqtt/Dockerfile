@@ -8,10 +8,10 @@ ARG BUILD_ARCH
 WORKDIR /app
 
 # Загружаем архив и распаковываем его
-RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.3.1.zip && \
-    unzip v1.3.1.zip && \
-    mv /app/broadlinkac2mqtt-1.3.1 /app/broadlinkac2mqtt && \
-    rm v1.3.1.zip
+RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.4.0.zip && \
+    unzip v1.4.0.zip && \
+    mv /app/broadlinkac2mqtt-1.4.0 /app/broadlinkac2mqtt && \
+    rm v1.4.0.zip
 
 # Переходим в распакованную директорию
 WORKDIR /app/broadlinkac2mqtt

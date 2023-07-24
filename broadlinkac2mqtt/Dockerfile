@@ -1,69 +1,41 @@
 ARG BUILD_FROM
 
-FROM golang:1.20.6-alpine3.18 as build
+FROM ${BUILD_FROM} AS runtime
 
-# Build arguments
 ARG BUILD_ARCH
+ARG BUILD_VERSION
 
-WORKDIR /app
-
-# Загружаем архив и распаковываем его
-RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.3.1.zip && \
-    unzip v1.3.1.zip && \
-    mv /app/broadlinkac2mqtt-1.3.1 /app/broadlinkac2mqtt && \
-    rm v1.3.1.zip
-
-# Переходим в распакованную директорию
-WORKDIR /app/broadlinkac2mqtt
+WORKDIR /broadlinkac2mqtt
+COPY run.sh .
 
 # Install dependencies and build the binary to target platform
 RUN \
-    go get -d -v ./... \
-    && go install -v ./... \
-    && cd /app/broadlinkac2mqtt \
-    && \
     if [ "${BUILD_ARCH}" = "armhf" ]; then \
-    GOOS=linux GOARCH=arm go build; \
+    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-arm.tar.gz; \
     elif [ "${BUILD_ARCH}" = "armv7" ]; then \
-    GOOS=linux GOARM=7 GOARCH=arm go build; \
+    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-arm7.tar.gz; \
     elif [ "${BUILD_ARCH}" = "aarch64" ]; then \
-    GOOS=linux GOARCH=arm64 go build; \
+    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-arm64.tar.gz; \
     elif [ "${BUILD_ARCH}" = "i386" ]; then \
-    GOOS=linux GOARCH=386 go build; \
+    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-386.tar.gz; \
     elif [ "${BUILD_ARCH}" = "amd64" ]; then \
-    GOOS=linux GOARCH=amd64 go build; \
+    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-amd64.tar.gz; \
     else \
     echo 'NOT VALID BUILD'; exit 1; \
-    fi
-
-# STAGE 2: Include binary in target add-on container
-FROM ${BUILD_FROM} AS runtime
-
-WORKDIR /broadlinkac2mqtt
-
-# Copy binary from build container
-COPY --from=build /app/broadlinkac2mqtt/broadlinkac2mqtt .
-
-COPY run.sh .
-RUN chmod a+x ./run.sh
-
-RUN mkdir config
-
-RUN apk add --no-cache gcc g++ make \
+    fi \
+    && tar -xzf broadlinkac2mqtt.tar.gz \
+    && rm broadlinkac2mqtt.tar.gz \
+    && chmod a+x ./run.sh \
+    && mkdir config \
+    && apk add --no-cache gcc g++ make \
     && pip3 install --no-cache-dir -U \
     pyyaml
 
 CMD "/broadlinkac2mqtt/run.sh" && "/broadlinkac2mqtt/broadlinkac2mqtt"
 
-#
-# LABEL target docker image
-#
-
 # Build arguments
-ARG BUILD_ARCH
 ARG BUILD_DATE
 ARG BUILD_REF
-ARG BUILD_VERSION
 
 # Labels
 LABEL \

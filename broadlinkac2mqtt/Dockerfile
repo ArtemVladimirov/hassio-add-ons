@@ -1,6 +1,6 @@
 ARG BUILD_FROM
 
-FROM golang:1.20.6-alpine3.18 as build
+FROM golang:1.22.2-alpine as build
 
 # Build arguments
 ARG BUILD_ARCH
@@ -8,10 +8,10 @@ ARG BUILD_ARCH
 WORKDIR /app
 
 # Загружаем архив и распаковываем его
-RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.4.1.zip && \
-    unzip v1.4.1.zip && \
-    mv /app/broadlinkac2mqtt-1.4.1 /app/broadlinkac2mqtt && \
-    rm v1.4.1.zip
+RUN wget https://github.com/ArtemVladimirov/broadlinkac2mqtt/archive/refs/tags/v1.5.1.zip && \
+    unzip v1.5.1.zip && \
+    mv /app/broadlinkac2mqtt-1.5.1 /app/broadlinkac2mqtt && \
+    rm v1.5.1.zip
 
 # Переходим в распакованную директорию
 WORKDIR /app/broadlinkac2mqtt

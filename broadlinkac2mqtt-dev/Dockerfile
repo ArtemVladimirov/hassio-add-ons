@@ -6,7 +6,6 @@ ARG BUILD_ARCH
 ARG BUILD_VERSION
 
 WORKDIR /broadlinkac2mqtt
-COPY run.sh .
 
 # Install dependencies and build the binary to target platform
 RUN \
@@ -24,14 +23,9 @@ RUN \
     echo 'NOT VALID BUILD'; exit 1; \
     fi \
     && tar -xzf broadlinkac2mqtt.tar.gz \
-    && rm broadlinkac2mqtt.tar.gz \
-    && chmod a+x ./run.sh \
-    && mkdir config \
-    && apk add --no-cache gcc g++ make \
-    && pip3 install --no-cache-dir -U \
-    pyyaml
+    && rm broadlinkac2mqtt.tar.gz
 
-CMD "/broadlinkac2mqtt/run.sh" && "/broadlinkac2mqtt/broadlinkac2mqtt"
+CMD "/broadlinkac2mqtt/broadlinkac2mqtt"
 
 # Build arguments
 ARG BUILD_DATE

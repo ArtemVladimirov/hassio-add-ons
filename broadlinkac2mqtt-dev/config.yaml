@@ -56,4 +56,4 @@ schema:
       mac: str
       name: str
       port: port
-      temperature_unit: "str?"
+      temperature_unit: "match(^(C|F)$)?"

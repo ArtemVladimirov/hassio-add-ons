@@ -34,6 +34,7 @@ options:
       mac: aabbccddeeff00
       name: MH Childroom AC
       port: 80
+      temperature_unit: "C"
 schema:
   service:
     update_interval: "int?"

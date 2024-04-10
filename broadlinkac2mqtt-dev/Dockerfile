@@ -5,8 +5,6 @@ FROM ${BUILD_FROM} AS runtime
 ARG BUILD_ARCH
 ARG BUILD_VERSION
 
-WORKDIR /broadlinkac2mqtt
-
 # Install dependencies and build the binary to target platform
 RUN \
     if [ "${BUILD_ARCH}" = "armhf" ]; then \
@@ -27,7 +25,7 @@ RUN \
     && rm README.md \
     && chmod +x broadlinkac2mqtt
 
-CMD "./broadlinkac2mqtt"
+CMD "/broadlinkac2mqtt"
 
 # Build arguments
 ARG BUILD_DATE

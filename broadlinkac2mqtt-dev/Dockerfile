@@ -23,7 +23,8 @@ RUN \
     echo 'NOT VALID BUILD'; exit 1; \
     fi \
     && tar -xzf broadlinkac2mqtt.tar.gz \
-    && rm broadlinkac2mqtt.tar.gz
+    && rm broadlinkac2mqtt.tar.gz \
+    && chmod +x /broadlinkac2mqtt/broadlinkac2mqtt
 
 CMD "/broadlinkac2mqtt/broadlinkac2mqtt"
 

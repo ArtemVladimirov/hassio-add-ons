@@ -25,7 +25,7 @@ RUN \
     && rm README.md \
     && chmod +x broadlinkac2mqtt
 
-CMD "/broadlinkac2mqtt"
+CMD "./broadlinkac2mqtt"
 
 # Build arguments
 ARG BUILD_DATE

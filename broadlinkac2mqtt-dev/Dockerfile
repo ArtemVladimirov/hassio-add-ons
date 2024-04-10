@@ -24,6 +24,7 @@ RUN \
     fi \
     && tar -xzf broadlinkac2mqtt.tar.gz \
     && rm broadlinkac2mqtt.tar.gz \
+    && rm README.md \
     && chmod +x broadlinkac2mqtt
 
 CMD "./broadlinkac2mqtt"

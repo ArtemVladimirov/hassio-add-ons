@@ -1,37 +1,37 @@
 ARG BUILD_FROM
 
-FROM ${BUILD_FROM} AS runtime
+FROM ${BUILD_FROM}
 
 ARG BUILD_ARCH
-ARG BUILD_VERSION
-
-# Install dependencies and build the binary to target platform
-RUN \
-    if [ "${BUILD_ARCH}" = "armhf" ]; then \
-    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-arm.tar.gz; \
-    elif [ "${BUILD_ARCH}" = "armv7" ]; then \
-    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-arm7.tar.gz; \
-    elif [ "${BUILD_ARCH}" = "aarch64" ]; then \
-    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-arm64.tar.gz; \
-    elif [ "${BUILD_ARCH}" = "i386" ]; then \
-    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-386.tar.gz; \
-    elif [ "${BUILD_ARCH}" = "amd64" ]; then \
-    wget -O broadlinkac2mqtt.tar.gz https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${BUILD_VERSION}/broadlinkac2mqtt-${BUILD_VERSION}-linux-amd64.tar.gz; \
-    else \
-    echo 'NOT VALID BUILD'; exit 1; \
-    fi \
-    && tar -xzf broadlinkac2mqtt.tar.gz \
-    && rm broadlinkac2mqtt.tar.gz \
-    && rm README.md \
-    && chmod +x broadlinkac2mqtt
-
-CMD "./broadlinkac2mqtt"
-
-# Build arguments
 ARG BUILD_DATE
 ARG BUILD_REF
+ARG BUILD_VERSION
+ARG RELEASE_TAG=v1.5.6
 
-# Labels
+RUN \
+    set -e \
+    && if [ "${BUILD_ARCH}" = "armhf" ]; then \
+        ARCH_SUFFIX="linux-arm"; \
+    elif [ "${BUILD_ARCH}" = "armv7" ]; then \
+        ARCH_SUFFIX="linux-armv7"; \
+    elif [ "${BUILD_ARCH}" = "aarch64" ]; then \
+        ARCH_SUFFIX="linux-arm64"; \
+    elif [ "${BUILD_ARCH}" = "i386" ]; then \
+        ARCH_SUFFIX="linux-386"; \
+    elif [ "${BUILD_ARCH}" = "amd64" ]; then \
+        ARCH_SUFFIX="linux-amd64"; \
+    else \
+        echo "NOT VALID BUILD"; exit 1; \
+    fi \
+    && curl -fsSL -o /tmp/broadlinkac2mqtt.tar.gz \
+        "https://github.com/ArtemVladimirov/broadlinkac2mqtt/releases/download/${RELEASE_TAG}/broadlinkac2mqtt-${RELEASE_TAG}-${ARCH_SUFFIX}.tar.gz" \
+    && tar -xzf /tmp/broadlinkac2mqtt.tar.gz -C /tmp \
+    && mv /tmp/broadlinkac2mqtt /usr/bin/broadlinkac2mqtt \
+    && chmod +x /usr/bin/broadlinkac2mqtt \
+    && rm -f /tmp/broadlinkac2mqtt.tar.gz /tmp/README.md /tmp/LICENSE
+
+ENTRYPOINT ["/usr/bin/broadlinkac2mqtt"]
+
 LABEL \
     io.hass.name="broadlinkac2mqtt" \
     io.hass.description="Control your broadlink-based air conditioner using Home Assistant" \

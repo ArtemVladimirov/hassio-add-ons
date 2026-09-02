@@ -1,5 +1,5 @@
 name: broadlinkac2mqtt
-version: v1.5.10
+version: v1.6.0
 slug: broadlinkac2mqtt
 description: Control your broadlink-based air conditioner using Home Assistant
 url: https://github.com/ArtemVladimirov/hassio-add-ons/tree/master
@@ -36,6 +36,14 @@ options:
       port: 80
       temperature_unit: "C"
       invert_display: false
+  cloud:
+    enabled: false
+    email: ""
+    password: ""
+    region: eu
+    auto_discover: true
+    hidden_devices: []
+    temperature_unit: C
 schema:
   service:
     update_interval: "int?"
@@ -52,6 +60,15 @@ schema:
     skip_cert_cn_check: "bool?"
     certificate_client: "str?"
     key-client: "str?"
+  cloud:
+    enabled: "bool?"
+    email: "str?"
+    password: "password?"
+    region: "match(^(eu|usa|cn)$)?"
+    auto_discover: "bool?"
+    hidden_devices:
+      - "str?"
+    temperature_unit: "match(^(C|F)$)?"
   devices:
     - ip: str
       mac: str
@@ -59,3 +76,5 @@ schema:
       port: port
       temperature_unit: "match(^(C|F)$)?"
       invert_display: "bool?"
+      transport: "match(^(local|cloud)$)?"
+      device_id: "str?"
